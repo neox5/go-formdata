@@ -26,6 +26,8 @@
 
 package formdata
 
+import "fmt"
+
 // FormDataError represents an error working with multipart/form-data.
 type FormDataError struct {
 	ErrorString string
@@ -36,5 +38,9 @@ func (fe *FormDataError) Error() string { return fe.ErrorString }
 var (
 	// ErrNotMultipartFormData is returned by the Parse method to indicate that
 	// the parsed request has a differnt Content-Type than multipart/form-data.
-	ErrNotMultipartFormData = &FormDataError{"request Content-Type isn't multipart/form-data"}
+	ErrNotMultipartFormData = func(got string) *FormDataError {
+		return &FormDataError{
+			fmt.Sprintf("request Content-Type isn't multipart/form-data, got: %s", got),
+		}
+	}
 )

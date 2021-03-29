@@ -45,14 +45,16 @@ func Parse(r *http.Request) (*FormData, error) {
 // ParseMax parses a request body as multipart/form-data. The whole
 // request body is parsed and up to a total of maxMemory bytes of its file parts
 // are stored in memory, with the remainder stored on disk in temporary files.
+//
+// To limit the size of the incoming request set http.MaxBytesReader before.
 func ParseMax(r *http.Request, maxMemory int64) (*FormData, error) {
 	contentType := r.Header.Get("Content-Type")
 
 	if !strings.HasPrefix(contentType, "multipart/form-data") {
-		return nil, ErrNotMultipartFormData
+		return nil, ErrNotMultipartFormData(contentType)
 	}
 
-	if err := r.ParseMultipartForm(maxMemory); err != nil { // 1 MiB
+	if err := r.ParseMultipartForm(maxMemory); err != nil {
 		return nil, err
 	}
 

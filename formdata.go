@@ -44,6 +44,24 @@ type FormData struct {
 	errors []*ValidationError
 }
 
+func (fd *FormData) validate(key string, isFile bool) *Validation {
+	return &Validation{
+		data:   fd,
+		key:    key,
+		isFile: isFile,
+	}
+}
+
+// Validate creates a field validation from a given form-data key.
+func (fd *FormData) Validate(key string) *Validation {
+	return fd.validate(key, false)
+}
+
+// ValidateFile creates a file validation from a given form-data key.
+func (fd *FormData) ValidateFile(key string) *Validation {
+	return fd.validate(key, true)
+}
+
 // HasErrors checks if form-data has any validation errors.
 func (fd *FormData) HasErrors() bool {
 	return len(fd.errors) > 0

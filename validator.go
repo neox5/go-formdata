@@ -39,24 +39,6 @@ type Validation struct {
 	isFile bool
 }
 
-func (fd *FormData) validate(key string, isFile bool) *Validation {
-	return &Validation{
-		data:   fd,
-		key:    key,
-		isFile: isFile,
-	}
-}
-
-// Validate creates a field validation from a given form-data key.
-func (fd *FormData) Validate(key string) *Validation {
-	return fd.validate(key, false)
-}
-
-// ValidateFile creates a file validation from a given form-data key.
-func (fd *FormData) ValidateFile(key string) *Validation {
-	return fd.validate(key, true)
-}
-
 // Required checks if a key exists in the form-data
 func (v *Validation) Required() *Validation {
 	if v.isFile {
