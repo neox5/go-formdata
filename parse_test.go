@@ -68,10 +68,10 @@ func testRequestWithMultipartForm(t *testing.T) (*http.Request, string) {
 	multipartWriter := multipart.NewWriter(body)
 
 	fieldData := map[string][]string{
-		"from":    {"ZionTec <noreply@zion.com>"},
-		"subject": {"Updates on Zion project"},
+		"from":    {"ZionTec <noreply@example.com>"},
+		"subject": {"Updates on Example project"},
 		"body":    {"this is an awesome mail body"},
-		"to":      {"awesomedude@gmail.com", "chairman@zion.com"},
+		"to":      {"awesomedude@gmail.com", "chairman@example.com"},
 	}
 
 	// populate form
