@@ -58,6 +58,11 @@ func TestValidate(t *testing.T) {
 	if fd.HasErrors() {
 		t.Errorf("Required validation error: expected: 0, got: %d", len(fd.Errors()))
 	}
+
+	fd.Validate("email2").Required()
+	if !fd.HasErrors() && len(fd.Errors()) == 1 {
+		t.Errorf("Error count mismatch: expected: 1, got: %d", len(fd.Errors()))
+	}
 }
 
 func TestExists(t *testing.T) {
@@ -117,6 +122,71 @@ func TestGet(t *testing.T) {
 	}
 
 	doesExist := fd.Get("email")
+	if len(doesExist) != 1 {
+		t.Errorf("Array length mismatch: expected: 1, got: %d", len(doesExist))
+	}
+}
+
+func TestValidateFile(t *testing.T) {
+	fd := emptyFormData()
+	fd.File["attachment"] = append(fd.File["attachment"], &multipart.FileHeader{Filename: "simple.pdf"})
+
+	if fd.HasErrors() {
+		t.Errorf("Errors before validation: expected: 0, got: %d", len(fd.Errors()))
+	}
+
+	fd.ValidateFile("attachment")
+	if fd.HasErrors() {
+		t.Errorf("Errors after initialize validation: expected: 0, got: %d", len(fd.Errors()))
+	}
+
+	fd.ValidateFile("attachment").Required()
+	if fd.HasErrors() {
+		t.Errorf("Required validation error: expected: 0, got: %d", len(fd.Errors()))
+	}
+
+	fd.ValidateFile("attachment2").Required()
+	if !fd.HasErrors() && len(fd.Errors()) == 1 {
+		t.Errorf("Error count mismatch: expected: 1, got: %d", len(fd.Errors()))
+	}
+}
+
+func TestFileExists(t *testing.T) {
+	fd := emptyFormData()
+	fd.File["attachment"] = append(fd.File["attachment"], &multipart.FileHeader{Filename: "simple.pdf"})
+
+	if !fd.FileExists("attachment") {
+		t.Error("Attachment key does not exist in form-data")
+	}
+
+	if fd.Exists("photo") {
+		t.Error("Photo key should not exist in form-data")
+	}
+}
+
+func TestGetFile(t *testing.T) {
+	fdWithNilFile := &FormData{
+		&multipart.Form{
+			Value: make(map[string][]string),
+			File:  nil,
+		},
+		make([]*ValidationError, 0),
+	}
+
+	// if Value is nil any check should return an empty string array
+	if len(fdWithNilFile.GetFile("attachment")) != 0 || len(fdWithNilFile.GetFile("photo")) != 0 {
+		t.Errorf("Form-data with empty value field should always return empty string: got: %d, got: %d", len(fdWithNilFile.Get("attachment")), len(fdWithNilFile.Get("photo")))
+	}
+
+	fd := emptyFormData()
+	fd.File["attachment"] = append(fd.File["attachment"], &multipart.FileHeader{Filename: "simple.pdf"})
+
+	doesNotExist := fd.GetFile("photo")
+	if len(doesNotExist) != 0 {
+		t.Errorf("Should not find any value: got: %s", doesNotExist.FirstFile().Filename)
+	}
+
+	doesExist := fd.GetFile("attachment")
 	if len(doesExist) != 1 {
 		t.Errorf("Array length mismatch: expected: 1, got: %d", len(doesExist))
 	}

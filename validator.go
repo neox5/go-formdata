@@ -60,7 +60,7 @@ func (v *Validation) HasN(count int) *Validation {
 	if v.isFile {
 		got := len(v.data.GetFile(v.key))
 		if got != count {
-			msg := fmt.Sprintf("Invalid number of elements: expected:%d, got:%d", count, got)
+			msg := fmt.Sprintf("Invalid number of elements: expected: %d, got: %d", count, got)
 			v.addError(v.key, msg)
 		}
 		return v
@@ -68,7 +68,7 @@ func (v *Validation) HasN(count int) *Validation {
 
 	got := len(v.data.Get(v.key))
 	if got != count {
-		msg := fmt.Sprintf("Invalid number of elements: expected:%d, got:%d", count, got)
+		msg := fmt.Sprintf("Invalid number of elements: expected: %d, got: %d", count, got)
 		v.addError(v.key, msg)
 	}
 	return v
@@ -79,7 +79,7 @@ func (v *Validation) HasNMin(count int) *Validation {
 	if v.isFile {
 		got := len(v.data.GetFile(v.key))
 		if got < count {
-			msg := fmt.Sprintf("Invalid number of elements: expected:>=%d, got:%d", count, got)
+			msg := fmt.Sprintf("Invalid number of elements: expected: >=%d, got: %d", count, got)
 			v.addError(v.key, msg)
 		}
 		return v
@@ -87,7 +87,7 @@ func (v *Validation) HasNMin(count int) *Validation {
 
 	got := len(v.data.Get(v.key))
 	if got < count {
-		msg := fmt.Sprintf("Invalid number of elements: expected:>=%d, got:%d", count, got)
+		msg := fmt.Sprintf("Invalid number of elements: expected: >=%d, got: %d", count, got)
 		v.addError(v.key, msg)
 	}
 	return v
@@ -96,6 +96,10 @@ func (v *Validation) HasNMin(count int) *Validation {
 // Match validates if the first element of the value matches the given regular
 // expression.
 func (v *Validation) Match(regex *regexp.Regexp) *Validation {
+	if v.isFile {
+		panic("Match is not supported for file validation!")
+	}
+
 	if !regex.MatchString(v.data.Get(v.key).First()) {
 		v.addMatchError(regex)
 	}

@@ -31,9 +31,9 @@ type FormDataValue []string
 
 // At gets one element of FormDataValue at the given index. If index is out of
 // bound an empty string is returned.
-func (v FormDataValue) At(index int64) string {
+func (v FormDataValue) At(index int) string {
 	// it can only be an empty string array or a string array
-	if int64(len(v)) < index+1 {
+	if len(v) < index+1 || index < 0 {
 		return ""
 	}
 	return v[index]

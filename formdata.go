@@ -109,7 +109,7 @@ func (fd *FormData) FileExists(key string) bool {
 // If there are no value associated with the key, GetFile returns an empty
 // []*multipart.FileHeader.
 func (fd *FormData) GetFile(key string) FormDataFile {
-	if fd.Value == nil {
+	if fd.File == nil {
 		return []*multipart.FileHeader{}
 	}
 	f := fd.File[key]

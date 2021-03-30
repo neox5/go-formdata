@@ -33,14 +33,14 @@ type FormDataFile []*multipart.FileHeader
 
 // GetFileAt returns a single *multipart.FileHeader of FormDataFile at the given
 // index. If index is out of bound nil is returned.
-func (f FormDataFile) GetFileAt(index int) *multipart.FileHeader {
-	if len(f) < index+1 {
+func (f FormDataFile) FileAt(index int) *multipart.FileHeader {
+	if len(f) < index+1 || index < 0 {
 		return nil
 	}
 	return f[index]
 }
 
 // GetFirstFile envokes FormDataFile.
-func (f FormDataFile) GetFirstFile() *multipart.FileHeader {
-	return f.GetFileAt(0)
+func (f FormDataFile) FirstFile() *multipart.FileHeader {
+	return f.FileAt(0)
 }
