@@ -37,7 +37,7 @@ const (
 	DefaultParseMaxMemory int64 = 2 << 19 // 1 MiB = 1,048,576 Bytes
 )
 
-// Parse envokes ParseMax(DefaultParseMaxMemory).
+// Parse envokes ParseMax(r, DefaultParseMaxMemory).
 func Parse(r *http.Request) (*FormData, error) {
 	return ParseMax(r, DefaultParseMaxMemory)
 }

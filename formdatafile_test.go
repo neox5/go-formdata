@@ -76,14 +76,14 @@ func TestFileAt(t *testing.T) {
 	}
 
 	for _, testcase := range validTestcases {
-		got := f.FileAt(testcase.index).Filename
+		got := f.At(testcase.index).Filename
 		if got != testcase.expected {
 			t.Errorf("Did not get correct file at %d: expected: %s, got: %s", testcase.index, testcase.expected, got)
 		}
 	}
 
 	for _, testcase := range invalidTestcases {
-		got := f.FileAt(testcase.index)
+		got := f.At(testcase.index)
 		if got != nil {
 			t.Errorf("Should return <nil> at index %d: got: %v", testcase.index, got)
 		}
@@ -94,12 +94,12 @@ func TestFirstFile(t *testing.T) {
 	d := sampleDocuments()
 	p := samplePhotos()
 
-	got := d.FirstFile()
+	got := d.First()
 	if got != d[0] {
 		t.Errorf("First file did not match: expected: %s, got: %s", d[0].Filename, got.Filename)
 	}
 
-	got = p.FirstFile()
+	got = p.First()
 	if got != p[0] {
 		t.Errorf("First file did not match: expected: %s, got: %s", p[0].Filename, got.Filename)
 	}
