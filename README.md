@@ -23,7 +23,60 @@ Validation is written to enable chaining and therefore improve code readability.
   (examples below).
 
 ## Usage
+Example shows how `formdata` helps handling a request for an email endpoint:
 
 ```go
-// I will copy my real life example in the next version
+func (s *Server) handleMailRequestV1() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+    // set http.MaxBytesReader before parsing to limit the size of the incoming
+    // request.
+    r.Body = http.MaxBytesReader(w, r.Body, formdata.DefaultParseMaxMemory) // 1MB
+
+    fd, err := formdata.Parse(r)
+    if err == formdata.ErrNotMultipartFormData {
+      // handle unsupported media type
+      return
+    }
+    if err != nil {
+      // handle internal server error
+      return
+    }
+
+    fd.Validate("from").Required().HasN(1)
+    fd.Validate("subject").Required().HasN(1)
+    fd.Validate("body").Required().HasN(1)
+    fd.Validate("to").Required().HasNMin(1).MatchAllEmail()
+
+    if fd.HasErrors() {
+      message := fmt.Sprintf("validation errors: %s", strings.Join(fd.Errors(), "; "))
+      // handle bad request
+      return
+    }
+
+    from := fd.Get("from").First()
+		subject := fd.Get("subject").First()
+		body := fd.Get("body").First()
+
+    msg := NewMail(from, subject, body)
+
+    to := fd.Get("to")
+
+    for _, recipient := range to {
+      msg.AddRecipient(recipient)
+    }
+
+    if fd.FileExists("attachment") {
+      for _, file := range fd.GetFile("attachment") {
+        reader, err := file.Open()
+        if err != nil {
+          // handle invalid attachment
+          return
+        }
+        msg.AddReaderAttachment(file.Filename, reader)
+      }
+    }
+
+    s.sendMessage(msg)
+  }
+}
 ```
