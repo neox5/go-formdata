@@ -24,16 +24,6 @@
  * SOFTWARE.
  */
 
-// package formdata provides helpers for multipart/form-data requests with no
-// external dependencies.
-//
-// The main focus for this package is parsing, validating and accessing
-// form-data from HTTP requests. The core element of this libary is FormData,
-// which wraps the multipart.Form object and adds additional validation
-// capabilities.
-//
-// Validation is written to enable chaining and therefore improve code
-// readability.
 package formdata
 
 import "mime/multipart"

@@ -1,5 +1,5 @@
 /*
- * Created on Sun Mar 28 2021
+ * Created on Wed Mar 31 2021
  *
  * MIT License
  *
@@ -24,23 +24,14 @@
  * SOFTWARE.
  */
 
+// Package formdata provides helpers for multipart/form-data requests with no
+// external dependencies.
+//
+// The main focus for this library is parsing, validating and accessing
+// form-data from HTTP requests. The core element of this libary is FormData,
+// which wraps the multipart.Form object and adds additional validation
+// capabilities.
+//
+// Validation is written to enable chaining and therefore improve code
+// readability.
 package formdata
-
-import "mime/multipart"
-
-// FormDataFile is the value of an element in FormData.File.
-type FormDataFile []*multipart.FileHeader
-
-// FileAt returns a single *multipart.FileHeader of FormDataFile at the given
-// index. If index is out of bound nil is returned.
-func (f FormDataFile) FileAt(index int) *multipart.FileHeader {
-	if len(f) < index+1 || index < 0 {
-		return nil
-	}
-	return f[index]
-}
-
-// FirstFile envokes FormDataFile.
-func (f FormDataFile) FirstFile() *multipart.FileHeader {
-	return f.FileAt(0)
-}

@@ -1,5 +1,5 @@
 /*
- * Created on Sun Mar 28 2021
+ * Created on Wed Mar 31 2021
  *
  * MIT License
  *
@@ -24,23 +24,13 @@
  * SOFTWARE.
  */
 
-package formdata
+// +build tools
 
-import "mime/multipart"
+// Package tools includes the list of tools used in the project.
+package tools
 
-// FormDataFile is the value of an element in FormData.File.
-type FormDataFile []*multipart.FileHeader
-
-// FileAt returns a single *multipart.FileHeader of FormDataFile at the given
-// index. If index is out of bound nil is returned.
-func (f FormDataFile) FileAt(index int) *multipart.FileHeader {
-	if len(f) < index+1 || index < 0 {
-		return nil
-	}
-	return f[index]
-}
-
-// FirstFile envokes FormDataFile.
-func (f FormDataFile) FirstFile() *multipart.FileHeader {
-	return f.FileAt(0)
-}
+import (
+	_ "github.com/client9/misspell/cmd/misspell"
+	_ "golang.org/x/tools/cmd/goimports"
+	_ "honnef.co/go/tools/cmd/staticcheck"
+)
