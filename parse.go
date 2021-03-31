@@ -51,7 +51,7 @@ func ParseMax(r *http.Request, maxMemory int64) (*FormData, error) {
 	contentType := r.Header.Get("Content-Type")
 
 	if !strings.HasPrefix(contentType, "multipart/form-data") {
-		return nil, ErrNotMultipartFormData(contentType)
+		return nil, ErrNotMultipartFormData
 	}
 
 	if err := r.ParseMultipartForm(maxMemory); err != nil {
