@@ -21,7 +21,11 @@ Validation is written to enable chaining and therefore improve code readability.
   meaning it won't bloat your project.
 
 - **Documentation** - With real world examples.
-  
+
+## Install
+
+`go get -u github.com/neox5/go-formdata`
+
 ## Usage
 Example shows how `formdata` helps handling a request for an email endpoint:
 
