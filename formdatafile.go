@@ -31,16 +31,16 @@ import "mime/multipart"
 // FormDataFile is the value of an element in FormData.File.
 type FormDataFile []*multipart.FileHeader
 
-// FileAt returns a single *multipart.FileHeader of FormDataFile at the given
+// At returns a single *multipart.FileHeader of FormDataFile at the given
 // index. If index is out of bound nil is returned.
-func (f FormDataFile) FileAt(index int) *multipart.FileHeader {
+func (f FormDataFile) At(index int) *multipart.FileHeader {
 	if len(f) < index+1 || index < 0 {
 		return nil
 	}
 	return f[index]
 }
 
-// FirstFile envokes FormDataFile.
-func (f FormDataFile) FirstFile() *multipart.FileHeader {
-	return f.FileAt(0)
+// First envokes FormDataFile.
+func (f FormDataFile) First() *multipart.FileHeader {
+	return f.At(0)
 }

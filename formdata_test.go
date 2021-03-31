@@ -183,7 +183,7 @@ func TestGetFile(t *testing.T) {
 
 	doesNotExist := fd.GetFile("photo")
 	if len(doesNotExist) != 0 {
-		t.Errorf("Should not find any value: got: %s", doesNotExist.FirstFile().Filename)
+		t.Errorf("Should not find any value: got: %s", doesNotExist.First().Filename)
 	}
 
 	doesExist := fd.GetFile("attachment")

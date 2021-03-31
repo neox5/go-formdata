@@ -42,13 +42,13 @@ type Validation struct {
 // Required checks if a key exists in the form-data
 func (v *Validation) Required() *Validation {
 	if v.isFile {
-		if _, exists := v.data.File[v.key]; !exists {
+		if !v.data.FileExists(v.key) {
 			v.addRequiredError(v.key)
 		}
 		return v
 	}
 
-	if _, exists := v.data.Value[v.key]; !exists {
+	if !v.data.Exists(v.key) {
 		v.addRequiredError(v.key)
 	}
 
@@ -117,7 +117,7 @@ func (v *Validation) MatchAll(regex *regexp.Regexp) *Validation {
 	return v
 }
 
-// MatchEmail validates if the frist element of the value matches an email.
+// MatchEmail validates if the first element of the value matches an email.
 func (v *Validation) MatchEmail() *Validation {
 	v.Match(emailRegex)
 	return v
