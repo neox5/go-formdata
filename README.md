@@ -54,8 +54,8 @@ func (s *Server) handleMailRequestV1() http.HandlerFunc {
     }
 
     from := fd.Get("from").First()
-		subject := fd.Get("subject").First()
-		body := fd.Get("body").First()
+    subject := fd.Get("subject").First()
+    body := fd.Get("body").First()
 
     msg := NewMail(from, subject, body)
 
