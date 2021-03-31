@@ -1,4 +1,4 @@
-# formdata
+# <img alt="formdata" src="https://cdn.statically.io/gh/neox5/go-formdata/main/formdata_logo.svg" width="300" />
 
 `formdata` is a simple and idomatic Go library for `multipart/form-data`.
 
