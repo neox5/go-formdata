@@ -11,17 +11,17 @@ Validation is written to enable chaining and therefore improve code readability.
 
 ## Features
 
-- **Documentation** - Great documentation and real world examples.
+- **Parsing** - Directly parsing http.Requests into `FormData`. A wrapper which
+  extends `multipart.Form` with additional validation capabilities. 
+
+- **Chainability** - Easy and intuative validation with chainable functions 
+  (examples below).
 
 - **Independent** - No external dependencies besides the Go standard library,
   meaning it won't bloat your project.
 
-- **Parsing** - Directly parsing http.Requests into `FormData`. A wrapper which
-  extends `multipart.Form` with additional validation capabilities. 
-
-- **Chainable** - Easy and intuative validation with chainable functions 
-  (examples below).
-
+- **Documentation** - With real world examples.
+  
 ## Usage
 Example shows how `formdata` helps handling a request for an email endpoint:
 
